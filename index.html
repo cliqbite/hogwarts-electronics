@@ -36,44 +36,54 @@ button{font-family:inherit;cursor:pointer;}
 
 .he-link{transition:color .2s ease;}
 .he-link:hover{color:var(--text) !important;}
-
 .he-cta{transition:transform .2s ease,box-shadow .2s ease;display:inline-block;}
 .he-cta:hover{transform:translateY(-2px);}
-
-.he-cat{
-  display:flex;flex-direction:column;
-  background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;
-  transition:transform .28s cubic-bezier(.2,.7,.3,1),border-color .28s ease;
-}
+.he-cat{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .28s cubic-bezier(.2,.7,.3,1),border-color .28s ease;}
 .he-cat:hover{border-color:var(--border-hover);transform:translateY(-4px);}
 .he-cat:hover .he-cat-arrow{color:var(--accent) !important;transform:translateX(3px);}
 .he-cat-arrow{color:var(--mono);font-size:16px;transition:color .2s ease,transform .2s ease;}
-
-.product-card{
-  display:flex;flex-direction:column;
-  background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;
-  transition:transform .28s cubic-bezier(.2,.7,.3,1),border-color .28s ease,box-shadow .28s ease;
-}
+.product-card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .28s cubic-bezier(.2,.7,.3,1),border-color .28s ease,box-shadow .28s ease;}
 .product-card:hover{transform:translateY(-6px);border-color:var(--border-hover);box-shadow:0 20px 44px rgba(0,0,0,.5);}
-
 .cc-tip:hover .cc-tipbox{opacity:1 !important;transform:translateX(-50%) translateY(0) !important;}
-
 .he-glow{animation:hePulse 7s ease-in-out infinite;}
-@keyframes hePulse{
-  0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(1);}
-  50%{opacity:.8;transform:translate(-50%,-50%) scale(1.08);}
-}
+@keyframes hePulse{0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(1);}50%{opacity:.8;transform:translate(-50%,-50%) scale(1.08);}}
+.ph-stripe{background:var(--ph-bg);background-image:repeating-linear-gradient(135deg,var(--ph-a) 0 13px,var(--ph-b) 13px 26px);}
+.ph-stripe-lg{background:var(--ph-bg);background-image:repeating-linear-gradient(135deg,var(--ph-a) 0 16px,var(--ph-b) 16px 32px);}
 
-.ph-stripe{
-  background:var(--ph-bg);
-  background-image:repeating-linear-gradient(135deg,var(--ph-a) 0 13px,var(--ph-b) 13px 26px);
-}
-.ph-stripe-lg{
-  background:var(--ph-bg);
-  background-image:repeating-linear-gradient(135deg,var(--ph-a) 0 16px,var(--ph-b) 16px 32px);
-}
+/* ── Layout grid classes ── */
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
+.grid-trust{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.grid-footer{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px;}
+.deal-layout{display:grid;grid-template-columns:1.1fr 1fr;}
+.hero-btns{display:flex;gap:14px;justify-content:center;}
+.nav-links{display:flex;align-items:center;gap:24px;font-size:14px;font-weight:500;}
 
-#root{min-height:100vh;}
+/* ── Responsive ── */
+@media(max-width:1024px){
+  .grid-5{grid-template-columns:repeat(3,1fr);}
+  .grid-footer{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:860px){
+  .grid-4{grid-template-columns:repeat(2,1fr);}
+  .deal-layout{grid-template-columns:1fr;}
+  .deal-img{display:none;}
+  .nav-links{display:none;}
+}
+@media(max-width:640px){
+  .grid-5{grid-template-columns:repeat(2,1fr);}
+  .grid-trust{grid-template-columns:repeat(2,1fr);}
+  .grid-footer{grid-template-columns:1fr;}
+  .hero-btns{flex-direction:column;align-items:center;}
+  .hero-h1{font-size:38px !important;line-height:1.08 !important;}
+  .hero-sub{font-size:15px !important;}
+  .section-pad{padding-left:16px !important;padding-right:16px !important;}
+  .section-title{font-size:22px !important;}
+}
+@media(max-width:420px){
+  .grid-4{grid-template-columns:1fr;}
+  .grid-5{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
@@ -81,40 +91,42 @@ button{font-family:inherit;cursor:pointer;}
 
 <script>
 const ACCENT = '#fa4b2a';
+let cartCount = 0;
+let theme = localStorage.getItem('he-theme') || 'dark';
 
 const data = {
   categories: [
     { name:'PlayStation', count:'120+ titles', image:'PLAYSTATION / category' },
-    { name:'Xbox', count:'80+ titles', image:'XBOX / category' },
-    { name:'Nintendo', count:'60+ titles', image:'NINTENDO / category' },
-    { name:'PC Gaming', count:'Gear & games', image:'PC GAMING / category' },
-    { name:'Accessories', count:'Audio · Chairs', image:'ACCESSORIES / category' }
+    { name:'Xbox',        count:'80+ titles',  image:'XBOX / category' },
+    { name:'Nintendo',    count:'60+ titles',  image:'NINTENDO / category' },
+    { name:'PC Gaming',   count:'Gear & games',image:'PC GAMING / category' },
+    { name:'Accessories', count:'Audio · Chairs',image:'ACCESSORIES / category' }
   ],
   benefits: [
     { title:'Free UAE delivery', sub:'Next-day in Dubai & Abu Dhabi' },
-    { title:'Pay in 4', sub:'Tabby & Tamara · 0% interest' },
-    { title:'2-year warranty', sub:'Official regional stock' },
-    { title:'Easy returns', sub:'14-day, hassle-free' }
+    { title:'Pay in 4',         sub:'Tabby & Tamara · 0% interest' },
+    { title:'2-year warranty',  sub:'Official regional stock' },
+    { title:'Easy returns',     sub:'14-day, hassle-free' }
   ],
   featured: [
-    { platform:'PS5', name:'PlayStation 5 Pro Console', price:2499, originalPrice:null, badge:'New', image:'PS5 PRO / product shot' },
-    { platform:'PS5', name:"Marvel's Spider-Man 2", price:249, originalPrice:null, badge:'New', image:'SPIDER-MAN 2 / box art' },
-    { platform:'Xbox Series X', name:'Starfield', price:199, originalPrice:249, badge:'Sale', image:'STARFIELD / box art' },
-    { platform:'PS5', name:'God of War Ragnarök', price:219, originalPrice:279, badge:'Sale', image:'GOD OF WAR / box art' },
-    { platform:'Nintendo Switch', name:'Zelda: Tears of the Kingdom', price:239, originalPrice:null, badge:null, image:'ZELDA TOTK / box art' },
-    { platform:'PC', name:'Razer BlackWidow V4 Keyboard', price:599, originalPrice:null, badge:null, image:'BLACKWIDOW V4 / product shot' },
-    { platform:'PS5', name:'PlayStation 5 Slim (Disc)', price:2299, originalPrice:null, badge:null, image:'PS5 SLIM / console shot' },
-    { platform:'PC', name:'SteelSeries Arctis Nova 7', price:749, originalPrice:null, badge:null, image:'ARCTIS NOVA 7 / product shot' }
+    { platform:'PS5',            name:'PlayStation 5 Pro Console',      price:2499, originalPrice:null, badge:'New',  image:'PS5 PRO / product shot' },
+    { platform:'PS5',            name:"Marvel's Spider-Man 2",          price:249,  originalPrice:null, badge:'New',  image:'SPIDER-MAN 2 / box art' },
+    { platform:'Xbox Series X',  name:'Starfield',                      price:199,  originalPrice:249,  badge:'Sale', image:'STARFIELD / box art' },
+    { platform:'PS5',            name:'God of War Ragnarök',            price:219,  originalPrice:279,  badge:'Sale', image:'GOD OF WAR / box art' },
+    { platform:'Nintendo Switch',name:'Zelda: Tears of the Kingdom',    price:239,  originalPrice:null, badge:null,   image:'ZELDA TOTK / box art' },
+    { platform:'PC',             name:'Razer BlackWidow V4 Keyboard',   price:599,  originalPrice:null, badge:null,   image:'BLACKWIDOW V4 / product shot' },
+    { platform:'PS5',            name:'PlayStation 5 Slim (Disc)',      price:2299, originalPrice:null, badge:null,   image:'PS5 SLIM / console shot' },
+    { platform:'PC',             name:'SteelSeries Arctis Nova 7',      price:749,  originalPrice:null, badge:null,   image:'ARCTIS NOVA 7 / product shot' }
   ],
   newReleases: [
-    { platform:'PS5', name:'EA Sports FC 25', price:279, originalPrice:299, badge:'Sale', image:'FC 25 / box art' },
-    { platform:'Xbox Series X', name:'Forza Motorsport', price:229, originalPrice:null, badge:null, image:'FORZA / box art' },
-    { platform:'Nintendo Switch', name:'Mario Kart 8 Deluxe', price:209, originalPrice:null, badge:null, image:'MARIO KART 8 / box art' },
-    { platform:'Universal', name:'Titan Evo Gaming Chair', price:1499, originalPrice:1799, badge:'Sale', image:'TITAN EVO / product shot' }
+    { platform:'PS5',            name:'EA Sports FC 25',           price:279,  originalPrice:299,  badge:'Sale', image:'FC 25 / box art' },
+    { platform:'Xbox Series X',  name:'Forza Motorsport',          price:229,  originalPrice:null, badge:null,   image:'FORZA / box art' },
+    { platform:'Nintendo Switch',name:'Mario Kart 8 Deluxe',       price:209,  originalPrice:null, badge:null,   image:'MARIO KART 8 / box art' },
+    { platform:'Universal',      name:'Titan Evo Gaming Chair',    price:1499, originalPrice:1799, badge:'Sale', image:'TITAN EVO / product shot' }
   ],
   socials: ['IG','X','TT','YT'],
   footerCols: [
-    { title:'Shop', links:['PlayStation','Xbox','Nintendo','PC Gaming','Accessories','Deals'] },
+    { title:'Shop',    links:['PlayStation','Xbox','Nintendo','PC Gaming','Accessories','Deals'] },
     { title:'Support', links:['Track order','Shipping','Returns','Warranty','Contact us'] },
     { title:'Company', links:['About us','Stores','Careers','Press','Gift cards'] }
   ],
@@ -123,40 +135,29 @@ const data = {
 
 const money = n => 'AED ' + n.toLocaleString('en-US');
 
-let cartCount = 0;
-let theme = localStorage.getItem('he-theme') || 'dark';
-
-function setTheme(t) {
-  theme = t;
-  localStorage.setItem('he-theme', t);
-  document.getElementById('root').setAttribute('data-theme', t);
-  const btn = document.getElementById('theme-btn');
-  if (btn) btn.textContent = t === 'dark' ? '☀' : '☾';
-}
-
 function productCard(p) {
   return `
-    <div class="product-card">
-      <div style="position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;" class="ph-stripe">
-        ${p.badge ? `<div style="position:absolute;top:13px;left:13px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;letter-spacing:.03em;padding:5px 10px;border-radius:999px;text-transform:uppercase;">${p.badge}</div>` : ''}
-        <div style="position:absolute;top:11px;right:11px;width:33px;height:33px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:15px;cursor:pointer;" onclick="this.textContent=this.textContent==='♡'?'♥':'♡'" title="Wishlist">♡</div>
-        <span style="font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:10.5px;color:var(--mono);letter-spacing:.05em;text-align:center;padding:0 18px;line-height:1.5;">${p.image}</span>
+  <div class="product-card">
+    <div style="position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;" class="ph-stripe">
+      ${p.badge ? `<div style="position:absolute;top:13px;left:13px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;letter-spacing:.03em;padding:5px 10px;border-radius:999px;text-transform:uppercase;">${p.badge}</div>` : ''}
+      <div style="position:absolute;top:11px;right:11px;width:33px;height:33px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:15px;cursor:pointer;" onclick="this.textContent=this.textContent==='♡'?'♥':'♡'">♡</div>
+      <span style="font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:10.5px;color:var(--mono);letter-spacing:.05em;text-align:center;padding:0 18px;line-height:1.5;">${p.image}</span>
+    </div>
+    <div style="padding:15px 15px 17px;display:flex;flex-direction:column;gap:7px;flex:1;">
+      <div style="font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--text-muted);font-weight:600;">${p.platform}</div>
+      <div style="font-size:14.5px;line-height:1.35;color:var(--text);font-weight:600;min-height:39px;">${p.name}</div>
+      <div style="display:flex;align-items:baseline;gap:9px;margin-top:3px;">
+        <span style="font-size:18px;font-weight:700;color:var(--text);">${money(p.price)}</span>
+        ${p.originalPrice ? `<span style="font-size:12.5px;color:var(--text-faint);text-decoration:line-through;">${money(p.originalPrice)}</span>` : ''}
       </div>
-      <div style="padding:15px 15px 17px;display:flex;flex-direction:column;gap:7px;flex:1;">
-        <div style="font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--text-muted);font-weight:600;">${p.platform}</div>
-        <div style="font-size:14.5px;line-height:1.35;color:var(--text);font-weight:600;min-height:39px;">${p.name}</div>
-        <div style="display:flex;align-items:baseline;gap:9px;margin-top:3px;">
-          <span style="font-size:18px;font-weight:700;color:var(--text);">${money(p.price)}</span>
-          ${p.originalPrice ? `<span style="font-size:12.5px;color:var(--text-faint);text-decoration:line-through;">${money(p.originalPrice)}</span>` : ''}
-        </div>
-        <div style="position:relative;margin-top:auto;padding-top:11px;" class="cc-tip">
-          <button disabled style="width:100%;border:1px solid var(--border-2);background:var(--surface-2);color:var(--text-muted);font-weight:600;font-size:13px;padding:11px;border-radius:11px;cursor:not-allowed;display:flex;align-items:center;justify-content:center;gap:7px;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#3a3a42;display:inline-block;"></span>Add to cart
-          </button>
-          <div class="cc-tipbox" style="position:absolute;bottom:calc(100% - 2px);left:50%;transform:translateX(-50%) translateY(6px);background:#000;color:var(--text);font-size:11.5px;font-weight:600;padding:6px 11px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;border:1px solid var(--border-2);">Available soon</div>
-        </div>
+      <div style="position:relative;margin-top:auto;padding-top:11px;" class="cc-tip">
+        <button disabled style="width:100%;border:1px solid var(--border-2);background:var(--surface-2);color:var(--text-muted);font-weight:600;font-size:13px;padding:11px;border-radius:11px;cursor:not-allowed;display:flex;align-items:center;justify-content:center;gap:7px;">
+          <span style="width:6px;height:6px;border-radius:50%;background:#3a3a42;display:inline-block;"></span>Add to cart
+        </button>
+        <div class="cc-tipbox" style="position:absolute;bottom:calc(100% - 2px);left:50%;transform:translateX(-50%) translateY(6px);background:#000;color:var(--text);font-size:11.5px;font-weight:600;padding:6px 11px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;border:1px solid var(--border-2);">Available soon</div>
       </div>
-    </div>`;
+    </div>
+  </div>`;
 }
 
 function render() {
@@ -166,18 +167,18 @@ function render() {
 
   root.innerHTML = `
     <!-- ANNOUNCEMENT BAR -->
-    <div style="background:var(--accent);color:#fff;text-align:center;font-size:12.5px;font-weight:600;letter-spacing:.01em;padding:9px 16px;">
-      Free next-day delivery across the UAE&nbsp;&nbsp;·&nbsp;&nbsp;Pay in 4 with Tabby &amp; Tamara&nbsp;&nbsp;·&nbsp;&nbsp;Prices incl. VAT
+    <div style="background:var(--accent);color:#fff;text-align:center;font-size:12px;font-weight:600;letter-spacing:.01em;padding:9px 16px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">
+      Free next-day delivery across the UAE &nbsp;·&nbsp; Pay in 4 with Tabby &amp; Tamara &nbsp;·&nbsp; Prices incl. VAT
     </div>
 
     <!-- NAV -->
     <header style="position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);border-bottom:1px solid var(--border);">
-      <div style="max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:28px;">
+      <div style="max-width:1200px;margin:0 auto;padding:0 20px;height:64px;display:flex;align-items:center;gap:20px;">
         <a href="#" style="display:flex;align-items:center;gap:10px;flex:none;">
           <div style="width:32px;height:32px;border-radius:9px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:17px;font-family:'Manrope',sans-serif;box-shadow:0 4px 14px rgba(250,75,42,.45);">H</div>
           <div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:var(--text);letter-spacing:-.01em;">Hogwarts<span style="color:var(--text-3);font-weight:600;">Electronics</span></div>
         </a>
-        <nav style="display:flex;align-items:center;gap:24px;font-size:14px;font-weight:500;">
+        <nav class="nav-links" style="color:var(--text-2);">
           <a href="products.html" class="he-link" style="color:var(--text-2);">Shop All</a>
           <a href="#" class="he-link" style="color:var(--text-2);">PlayStation</a>
           <a href="#" class="he-link" style="color:var(--text-2);">Xbox</a>
@@ -186,14 +187,10 @@ function render() {
           <a href="#" class="he-link" style="color:var(--accent);font-weight:600;">Deals</a>
         </nav>
         <div style="flex:1;"></div>
-        <div style="display:flex;align-items:center;gap:8px;background:var(--card-2);border:1px solid var(--border);border-radius:10px;padding:8px 12px;width:210px;color:var(--text-3);">
-          <span style="font-size:14px;">⌕</span>
-          <span style="font-size:13px;">Search games, consoles…</span>
-        </div>
-        <button id="theme-btn" onclick="setTheme(theme==='dark'?'light':'dark')" title="Toggle theme" style="width:38px;height:38px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-2);font-size:15px;cursor:pointer;flex:none;">${theme === 'dark' ? '☀' : '☾'}</button>
+        <button id="theme-btn" title="Toggle theme" style="width:38px;height:38px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-2);font-size:15px;cursor:pointer;flex:none;">${theme === 'dark' ? '☀' : '☾'}</button>
         <a href="#" style="position:relative;width:38px;height:38px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-2);font-size:16px;flex:none;">
           ⛒
-          <span id="cart-count" style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;border-radius:9px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid var(--bg);">${cartCount}</span>
+          <span style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;border-radius:9px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid var(--bg);">${cartCount}</span>
         </a>
       </div>
     </header>
@@ -201,17 +198,17 @@ function render() {
     <!-- HERO -->
     <section style="position:relative;overflow:hidden;border-bottom:1px solid var(--border);">
       <div class="he-glow" style="position:absolute;top:46%;left:50%;width:760px;height:480px;background:radial-gradient(ellipse at center,rgba(250,75,42,.55),rgba(250,75,42,0) 68%);filter:blur(18px);pointer-events:none;"></div>
-      <div style="position:relative;max-width:1200px;margin:0 auto;padding:78px 24px 0;text-align:center;">
-        <div style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.02em;color:var(--pill-text);background:rgba(250,75,42,.12);border:1px solid rgba(250,75,42,.32);padding:6px 14px;border-radius:999px;margin-bottom:26px;">
-          <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);"></span>PlayStation 5 Pro — now in stock
+      <div style="position:relative;max-width:1200px;margin:0 auto;padding:64px 20px 0;text-align:center;">
+        <div style="display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;letter-spacing:.02em;color:var(--pill-text);background:rgba(250,75,42,.12);border:1px solid rgba(250,75,42,.32);padding:6px 14px;border-radius:999px;margin-bottom:22px;">
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none;"></span>PlayStation 5 Pro — now in stock
         </div>
-        <h1 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:68px;line-height:1.02;letter-spacing:-.03em;color:var(--text);margin:0 auto;max-width:760px;text-wrap:balance;">Game like<br>never before.</h1>
-        <p style="font-size:18px;line-height:1.55;color:var(--text-2);max-width:520px;margin:22px auto 0;text-wrap:pretty;">The Middle East's home for consoles, games and gear. Genuine regional stock, next-day delivery, and pay-in-4 across the UAE.</p>
-        <div style="display:flex;gap:14px;justify-content:center;margin-top:32px;">
+        <h1 class="hero-h1" style="font-family:'Manrope',sans-serif;font-weight:800;font-size:68px;line-height:1.02;letter-spacing:-.03em;color:var(--text);margin:0 auto;max-width:760px;text-wrap:balance;">Game like<br>never before.</h1>
+        <p class="hero-sub" style="font-size:18px;line-height:1.55;color:var(--text-2);max-width:520px;margin:18px auto 0;text-wrap:pretty;">The Middle East's home for consoles, games and gear. Genuine regional stock, next-day delivery, and pay-in-4 across the UAE.</p>
+        <div class="hero-btns" style="margin-top:28px;">
           <a href="#featured" class="he-cta" style="background:var(--accent);color:#fff;font-weight:600;font-size:15px;padding:14px 26px;border-radius:12px;box-shadow:0 10px 28px rgba(250,75,42,.4);">Shop PS5 Pro</a>
-          <a href="#categories" class="he-cta" style="background:var(--card-2);color:var(--text);font-weight:600;font-size:15px;padding:14px 26px;border-radius:12px;border:1px solid var(--border-2);">Explore all consoles</a>
+          <a href="products.html" class="he-cta" style="background:var(--card-2);color:var(--text);font-weight:600;font-size:15px;padding:14px 26px;border-radius:12px;border:1px solid var(--border-2);">Explore all consoles</a>
         </div>
-        <div style="position:relative;margin:54px auto 0;max-width:1040px;aspect-ratio:16/7;border:1px solid var(--border);border-radius:22px 22px 0 0;display:flex;align-items:center;justify-content:center;" class="ph-stripe-lg">
+        <div style="position:relative;margin:48px auto 0;max-width:1040px;aspect-ratio:16/7;border:1px solid var(--border);border-radius:22px 22px 0 0;display:flex;align-items:center;justify-content:center;" class="ph-stripe-lg">
           <span style="font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:13px;color:var(--mono);letter-spacing:.06em;">PLAYSTATION 5 PRO &nbsp;/&nbsp; hero product shot</span>
         </div>
       </div>
@@ -219,7 +216,7 @@ function render() {
 
     <!-- TRUST BAR -->
     <section style="border-bottom:1px solid var(--border);background:var(--panel);">
-      <div style="max-width:1200px;margin:0 auto;padding:22px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+      <div style="max-width:1200px;margin:0 auto;padding:22px 20px;" class="grid-trust">
         ${data.benefits.map(b => `
           <div style="display:flex;align-items:flex-start;gap:12px;">
             <div style="width:34px;height:34px;border-radius:9px;border:1px solid var(--border-2);background:var(--card-2);display:flex;align-items:center;justify-content:center;flex:none;">
@@ -234,15 +231,15 @@ function render() {
     </section>
 
     <!-- SHOP BY CATEGORY -->
-    <section id="categories" style="max-width:1200px;margin:0 auto;padding:64px 24px 8px;">
-      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px;">
+    <section id="categories" style="max-width:1200px;margin:0 auto;padding:56px 20px 8px;" class="section-pad">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:12px;">
         <div>
           <div style="font-size:12px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">Browse</div>
-          <h2 style="font-family:'Manrope',sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;color:var(--text);margin:0;">Shop by category</h2>
+          <h2 class="section-title" style="font-family:'Manrope',sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;color:var(--text);margin:0;">Shop by category</h2>
         </div>
-        <a href="#" class="he-link" style="font-size:14px;font-weight:600;color:var(--text-2);">View all →</a>
+        <a href="products.html" class="he-link" style="font-size:14px;font-weight:600;color:var(--text-2);white-space:nowrap;">View all →</a>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;">
+      <div class="grid-5">
         ${data.categories.map(c => `
           <a href="#" class="he-cat">
             <div style="aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;" class="ph-stripe">
@@ -260,59 +257,59 @@ function render() {
     </section>
 
     <!-- FEATURED PRODUCTS -->
-    <section id="featured" style="max-width:1200px;margin:0 auto;padding:56px 24px 8px;">
-      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px;">
+    <section id="featured" style="max-width:1200px;margin:0 auto;padding:52px 20px 8px;" class="section-pad">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:12px;">
         <div>
           <div style="font-size:12px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">Featured</div>
-          <h2 style="font-family:'Manrope',sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;color:var(--text);margin:0;">Trending this week</h2>
+          <h2 class="section-title" style="font-family:'Manrope',sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;color:var(--text);margin:0;">Trending this week</h2>
         </div>
-        <a href="#" class="he-link" style="font-size:14px;font-weight:600;color:var(--text-2);">View all →</a>
+        <a href="products.html" class="he-link" style="font-size:14px;font-weight:600;color:var(--text-2);white-space:nowrap;">View all →</a>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;">
+      <div class="grid-4">
         ${data.featured.map(productCard).join('')}
       </div>
     </section>
 
     <!-- DEAL OF THE WEEK -->
-    <section style="max-width:1200px;margin:0 auto;padding:64px 24px 8px;">
-      <div data-theme="dark" style="position:relative;overflow:hidden;border-radius:22px;border:1px solid rgba(250,75,42,.3);background:linear-gradient(105deg,#2a160e 0%,#1a110b 52%,#0f0f12 100%);display:grid;grid-template-columns:1.1fr 1fr;">
-        <div style="padding:48px;">
+    <section style="max-width:1200px;margin:0 auto;padding:56px 20px 8px;" class="section-pad">
+      <div data-theme="dark" class="deal-layout" style="position:relative;overflow:hidden;border-radius:22px;border:1px solid rgba(250,75,42,.3);background:linear-gradient(105deg,#2a160e 0%,#1a110b 52%,#0f0f12 100%);">
+        <div style="padding:40px 44px;">
           <div style="display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:#fa4b2a;padding:6px 12px;border-radius:999px;">Deal of the week</div>
-          <h3 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:38px;line-height:1.08;letter-spacing:-.02em;color:#f4f4f6;margin:20px 0 0;max-width:380px;">Save AED 300 on the Titan Evo chair</h3>
-          <p style="font-size:15px;color:#c9c9d0;margin:14px 0 0;max-width:400px;line-height:1.55;">Ergonomic cold-cure foam, 4-way lumbar support and a full-metal 4D armrest system. This week only.</p>
-          <div style="display:flex;align-items:baseline;gap:12px;margin:24px 0 0;">
-            <span style="font-family:'Manrope',sans-serif;font-size:30px;font-weight:800;color:#f4f4f6;white-space:nowrap;">AED 1,499</span>
+          <h3 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:34px;line-height:1.08;letter-spacing:-.02em;color:#f4f4f6;margin:18px 0 0;max-width:380px;">Save AED 300 on the Titan Evo chair</h3>
+          <p style="font-size:15px;color:#c9c9d0;margin:12px 0 0;max-width:400px;line-height:1.55;">Ergonomic cold-cure foam, 4-way lumbar support and a full-metal 4D armrest system. This week only.</p>
+          <div style="display:flex;align-items:baseline;gap:12px;margin:20px 0 0;">
+            <span style="font-family:'Manrope',sans-serif;font-size:28px;font-weight:800;color:#f4f4f6;white-space:nowrap;">AED 1,499</span>
             <span style="font-size:16px;color:#6a6a74;text-decoration:line-through;">AED 1,799</span>
           </div>
-          <a href="#" class="he-cta" style="display:inline-block;margin-top:24px;background:#fa4b2a;color:#fff;font-weight:600;font-size:15px;padding:13px 26px;border-radius:12px;box-shadow:0 10px 28px rgba(250,75,42,.4);">Shop the deal</a>
+          <a href="#" class="he-cta" style="display:inline-block;margin-top:20px;background:#fa4b2a;color:#fff;font-weight:600;font-size:15px;padding:13px 26px;border-radius:12px;box-shadow:0 10px 28px rgba(250,75,42,.4);">Shop the deal</a>
         </div>
-        <div style="background:#0e0e11;background-image:repeating-linear-gradient(135deg,#1d130c 0 16px,#140d08 16px 32px);display:flex;align-items:center;justify-content:center;min-height:340px;">
+        <div class="deal-img" style="background:#0e0e11;background-image:repeating-linear-gradient(135deg,#1d130c 0 16px,#140d08 16px 32px);display:flex;align-items:center;justify-content:center;min-height:300px;">
           <span style="font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px;color:#5a5066;letter-spacing:.06em;">TITAN EVO CHAIR &nbsp;/&nbsp; product shot</span>
         </div>
       </div>
     </section>
 
     <!-- NEW RELEASES -->
-    <section style="max-width:1200px;margin:0 auto;padding:56px 24px 8px;">
-      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px;">
+    <section style="max-width:1200px;margin:0 auto;padding:52px 20px 8px;" class="section-pad">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:12px;">
         <div>
           <div style="font-size:12px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">Just landed</div>
-          <h2 style="font-family:'Manrope',sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;color:var(--text);margin:0;">New releases</h2>
+          <h2 class="section-title" style="font-family:'Manrope',sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;color:var(--text);margin:0;">New releases</h2>
         </div>
-        <a href="#" class="he-link" style="font-size:14px;font-weight:600;color:var(--text-2);">View all →</a>
+        <a href="products.html" class="he-link" style="font-size:14px;font-weight:600;color:var(--text-2);white-space:nowrap;">View all →</a>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;">
+      <div class="grid-4">
         ${data.newReleases.map(productCard).join('')}
       </div>
     </section>
 
     <!-- NEWSLETTER -->
-    <section style="max-width:1200px;margin:0 auto;padding:72px 24px;">
-      <div style="border:1px solid var(--border);border-radius:22px;background:var(--panel);padding:48px;text-align:center;">
-        <h3 style="font-family:'Manrope',sans-serif;font-weight:700;font-size:26px;letter-spacing:-.02em;color:var(--text);margin:0;">Get first dibs on drops &amp; deals</h3>
-        <p style="font-size:14.5px;color:var(--text-3);margin:12px 0 0;">Join 40,000+ gamers across the GCC. No spam, just the good stuff.</p>
-        <form onsubmit="handleSubscribe(event)" style="display:flex;gap:10px;justify-content:center;margin-top:24px;max-width:440px;margin-left:auto;margin-right:auto;">
-          <input type="email" placeholder="Enter your email address" required style="flex:1;background:var(--surface-2);border:1px solid var(--border-2);border-radius:11px;padding:13px 16px;text-align:left;color:var(--text);font-size:14px;font-family:inherit;outline:none;">
+    <section style="max-width:1200px;margin:0 auto;padding:64px 20px;" class="section-pad">
+      <div style="border:1px solid var(--border);border-radius:22px;background:var(--panel);padding:40px 32px;text-align:center;">
+        <h3 style="font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;color:var(--text);margin:0;">Get first dibs on drops &amp; deals</h3>
+        <p style="font-size:14.5px;color:var(--text-3);margin:10px 0 0;">Join 40,000+ gamers across the GCC. No spam, just the good stuff.</p>
+        <form onsubmit="handleSubscribe(event)" style="display:flex;gap:10px;justify-content:center;margin-top:20px;max-width:440px;margin-left:auto;margin-right:auto;flex-wrap:wrap;">
+          <input type="email" placeholder="Enter your email address" required style="flex:1;min-width:200px;background:var(--surface-2);border:1px solid var(--border-2);border-radius:11px;padding:13px 16px;color:var(--text);font-size:14px;font-family:inherit;outline:none;">
           <button type="submit" class="he-cta" style="background:var(--accent);color:#fff;font-weight:600;font-size:14px;padding:13px 22px;border-radius:11px;white-space:nowrap;border:none;">Subscribe</button>
         </form>
       </div>
@@ -320,29 +317,29 @@ function render() {
 
     <!-- FOOTER -->
     <footer style="border-top:1px solid var(--border);background:var(--bg-deep);">
-      <div style="max-width:1200px;margin:0 auto;padding:54px 24px 28px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px;">
+      <div style="max-width:1200px;margin:0 auto;padding:48px 20px 28px;" class="grid-footer section-pad">
         <div>
           <div style="display:flex;align-items:center;gap:10px;">
             <div style="width:30px;height:30px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;font-family:'Manrope',sans-serif;">H</div>
             <div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:15px;color:var(--text);">Hogwarts<span style="color:var(--text-3);font-weight:600;">Electronics</span></div>
           </div>
-          <p style="font-size:13px;color:var(--text-3);line-height:1.6;margin:16px 0 0;max-width:280px;">The Middle East's destination for consoles, games and gaming gear. Genuine regional stock, delivered next-day across the UAE.</p>
-          <div style="display:flex;gap:10px;margin-top:18px;">
+          <p style="font-size:13px;color:var(--text-3);line-height:1.6;margin:14px 0 0;max-width:280px;">The Middle East's destination for consoles, games and gaming gear. Genuine regional stock, delivered next-day across the UAE.</p>
+          <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
             ${data.socials.map(s => `<a href="#" style="width:34px;height:34px;border-radius:9px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-3);font-size:12px;font-weight:700;">${s}</a>`).join('')}
           </div>
         </div>
         ${data.footerCols.map(col => `
           <div>
-            <div style="font-size:12.5px;font-weight:700;color:var(--text);letter-spacing:.04em;text-transform:uppercase;margin-bottom:16px;">${col.title}</div>
-            <div style="display:flex;flex-direction:column;gap:11px;">
+            <div style="font-size:12.5px;font-weight:700;color:var(--text);letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px;">${col.title}</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
               ${col.links.map(l => `<a href="#" class="he-link" style="font-size:13.5px;color:var(--text-3);">${l}</a>`).join('')}
             </div>
           </div>`).join('')}
       </div>
       <div style="border-top:1px solid var(--border);">
-        <div style="max-width:1200px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div style="max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
           <div style="font-size:12.5px;color:var(--text-faint);">© 2026 Hogwarts Electronics LLC · Dubai, UAE · All prices incl. 5% VAT</div>
-          <div style="display:flex;gap:8px;align-items:center;">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
             ${data.payments.map(p => `<div style="height:26px;padding:0 9px;border-radius:6px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;font-size:10px;font-weight:700;color:var(--text-3);letter-spacing:.03em;">${p}</div>`).join('')}
           </div>
         </div>
@@ -350,32 +347,23 @@ function render() {
     </footer>
   `;
 
-  // Re-attach theme button handler after render
-  const btn = document.getElementById('theme-btn');
-  if (btn) {
-    btn.addEventListener('click', () => {
-      setTheme(theme === 'dark' ? 'light' : 'dark');
-      render();
-    });
-  }
+  document.getElementById('theme-btn').addEventListener('click', () => {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('he-theme', theme);
+    render();
+  });
 }
 
 function handleSubscribe(e) {
   e.preventDefault();
-  const input = e.target.querySelector('input');
   const btn = e.target.querySelector('button');
   btn.textContent = 'Subscribed ✓';
   btn.style.background = '#10b981';
-  input.value = '';
-  setTimeout(() => {
-    btn.textContent = 'Subscribe';
-    btn.style.background = '';
-  }, 3000);
+  e.target.querySelector('input').value = '';
+  setTimeout(() => { btn.textContent = 'Subscribe'; btn.style.background = ''; }, 3000);
 }
 
-window.setTheme = setTheme;
 window.handleSubscribe = handleSubscribe;
-
 render();
 </script>
 </body>

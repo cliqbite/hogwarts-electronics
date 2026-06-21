@@ -37,6 +37,30 @@ button{font-family:inherit;cursor:pointer;}
 .product-card:hover{transform:translateY(-6px);border-color:var(--border-hover);box-shadow:0 20px 44px rgba(0,0,0,.5);}
 .ph-stripe{background:var(--ph-bg);background-image:repeating-linear-gradient(135deg,var(--ph-a) 0 13px,var(--ph-b) 13px 26px);}
 .ph-stripe-lg{background:var(--ph-bg);background-image:repeating-linear-gradient(135deg,var(--ph-a) 0 16px,var(--ph-b) 16px 32px);}
+.nav-links{display:flex;align-items:center;gap:24px;font-size:14px;font-weight:500;}
+
+/* ── Layout ── */
+.detail-layout{display:grid;grid-template-columns:1fr 1fr;gap:48px;}
+.desc-layout{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* ── Responsive ── */
+@media(max-width:860px){
+  .nav-links{display:none;}
+  .detail-layout{grid-template-columns:1fr;gap:32px;}
+  .desc-layout{grid-template-columns:1fr;gap:24px;}
+  .grid-4{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:540px){
+  .grid-4{grid-template-columns:repeat(2,1fr);}
+  .trust-grid{grid-template-columns:1fr;}
+  .pdp-price{font-size:26px !important;}
+  .pdp-title{font-size:26px !important;}
+}
+@media(max-width:380px){
+  .grid-4{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
@@ -45,11 +69,9 @@ button{font-family:inherit;cursor:pointer;}
 <script>
 const PRODUCT = {
   name: "God of War Ragnarök",
-  platform: "PlayStation 5",
-  genre: "Action-Adventure",
+  platform: "PlayStation 5", genre: "Action-Adventure",
   price: 219, originalPrice: 279,
-  rating: 4.9, reviews: 1240,
-  badge: "Sale",
+  rating: 4.9, reviews: 1240, badge: "Sale",
   images: ["GOD OF WAR / box art","GOD OF WAR / gameplay 1","GOD OF WAR / gameplay 2"],
   description: [
     "Kratos and Atreus journey through the Nine Realms in search of answers as Asgardian forces prepare for war. A sweeping, mythological epic with brutal, cinematic combat and one of the most acclaimed stories on PlayStation.",
@@ -57,30 +79,29 @@ const PRODUCT = {
   ],
   tags: ["Single-player","Action","Adventure","PEGI 18","Exclusive"],
   specs: [
-    { k:"Platform",   v:"PlayStation 5" },
-    { k:"Genre",      v:"Action-Adventure" },
-    { k:"Publisher",  v:"Sony Interactive" },
-    { k:"Players",    v:"1" },
-    { k:"Release",    v:"Nov 2022" },
-    { k:"Age rating", v:"PEGI 18" }
+    { k:"Platform",  v:"PlayStation 5" },
+    { k:"Genre",     v:"Action-Adventure" },
+    { k:"Publisher", v:"Sony Interactive" },
+    { k:"Players",   v:"1" },
+    { k:"Release",   v:"Nov 2022" },
+    { k:"Age rating",v:"PEGI 18" }
   ],
   assurances: [
-    { title:"Free UAE delivery",  sub:"Next-day, no minimum" },
-    { title:"Pay in 4",           sub:"Tabby & Tamara" },
-    { title:"2-year warranty",    sub:"Official regional stock" },
-    { title:"14-day returns",     sub:"Hassle-free" }
+    { title:"Free UAE delivery", sub:"Next-day, no minimum" },
+    { title:"Pay in 4",         sub:"Tabby & Tamara" },
+    { title:"2-year warranty",  sub:"Official regional stock" },
+    { title:"14-day returns",   sub:"Hassle-free" }
   ]
 };
 
 const RELATED = [
-  { platform:"PS5",            name:"Marvel's Spider-Man 2",      price:249,  originalPrice:null, badge:"New",  img:"SPIDER-MAN 2 / box art" },
-  { platform:"PS5",            name:"EA Sports FC 25",             price:279,  originalPrice:299,  badge:"Sale", img:"FC 25 / box art" },
-  { platform:"PS5",            name:"PlayStation 5 Pro Console",   price:2499, originalPrice:null, badge:"New",  img:"PS5 PRO / console shot" },
-  { platform:"Nintendo Switch",name:"Zelda: Tears of the Kingdom", price:239,  originalPrice:null, badge:null,   img:"ZELDA TOTK / box art" }
+  { platform:"PS5",            name:"Marvel's Spider-Man 2",     price:249,  originalPrice:null, badge:"New",  img:"SPIDER-MAN 2 / box art" },
+  { platform:"PS5",            name:"EA Sports FC 25",            price:279,  originalPrice:299,  badge:"Sale", img:"FC 25 / box art" },
+  { platform:"PS5",            name:"PlayStation 5 Pro Console",  price:2499, originalPrice:null, badge:"New",  img:"PS5 PRO / console shot" },
+  { platform:"Nintendo Switch",name:"Zelda: Tears of the Kingdom",price:239,  originalPrice:null, badge:null,   img:"ZELDA TOTK / box art" }
 ];
 
 const PAYS = ["VISA","MC","AMEX","TABBY","TAMARA"];
-
 const money = n => 'AED ' + n.toLocaleString('en-US');
 
 let state = {
@@ -90,7 +111,7 @@ let state = {
 
 function setState(patch) { Object.assign(state, patch); render(); }
 
-function relatedCardHTML(p) {
+function relCardHTML(p) {
   return `
   <div class="product-card">
     <div style="position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;" class="ph-stripe">
@@ -127,12 +148,12 @@ function render() {
   root.innerHTML = `
     <!-- NAV -->
     <header style="position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:saturate(160%) blur(16px);-webkit-backdrop-filter:saturate(160%) blur(16px);border-bottom:1px solid var(--border);">
-      <div style="max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:28px;">
+      <div style="max-width:1200px;margin:0 auto;padding:0 20px;height:64px;display:flex;align-items:center;gap:20px;">
         <a href="index.html" style="display:flex;align-items:center;gap:10px;flex:none;">
           <div style="width:32px;height:32px;border-radius:9px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:17px;font-family:'Manrope',sans-serif;box-shadow:0 4px 14px rgba(250,75,42,.45);">H</div>
           <div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;color:var(--text);letter-spacing:-.01em;">Hogwarts<span style="color:var(--text-muted);font-weight:600;">Electronics</span></div>
         </a>
-        <nav style="display:flex;align-items:center;gap:24px;font-size:14px;font-weight:500;">
+        <nav class="nav-links" style="color:var(--text-2);">
           <a href="products.html" class="he-link" style="color:var(--text-2);">Shop All</a>
           <a href="#" class="he-link" style="color:var(--text-2);">PlayStation</a>
           <a href="#" class="he-link" style="color:var(--text-2);">Xbox</a>
@@ -143,14 +164,13 @@ function render() {
         <div style="flex:1;"></div>
         <button id="theme-btn" title="Toggle theme" style="width:38px;height:38px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-2);font-size:15px;cursor:pointer;flex:none;">${state.theme === 'dark' ? '☀' : '☾'}</button>
         <a href="#" style="position:relative;width:38px;height:38px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-2);font-size:16px;flex:none;">
-          ⛒
-          <span style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;border-radius:9px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid var(--bg);">0</span>
+          ⛒<span style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;border-radius:9px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid var(--bg);">0</span>
         </a>
       </div>
     </header>
 
     <!-- BREADCRUMB -->
-    <div style="max-width:1200px;margin:0 auto;padding:26px 24px 0;">
+    <div style="max-width:1200px;margin:0 auto;padding:22px 20px 0;">
       <div style="font-size:12.5px;color:var(--text-muted);">
         <a href="index.html" class="he-link">Home</a> &nbsp;/&nbsp;
         <a href="products.html" class="he-link">PlayStation</a> &nbsp;/&nbsp;
@@ -158,18 +178,18 @@ function render() {
       </div>
     </div>
 
-    <!-- MAIN GRID -->
-    <section style="max-width:1200px;margin:0 auto;padding:24px 24px 0;display:grid;grid-template-columns:1fr 1fr;gap:48px;">
+    <!-- MAIN -->
+    <section style="max-width:1200px;margin:0 auto;padding:22px 20px 0;" class="detail-layout">
 
       <!-- GALLERY -->
       <div>
         <div style="position:relative;aspect-ratio:1/1;border:1px solid var(--border);border-radius:20px;display:flex;align-items:center;justify-content:center;" class="ph-stripe-lg">
           <div style="position:absolute;top:16px;left:16px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;letter-spacing:.03em;padding:6px 12px;border-radius:999px;text-transform:uppercase;">−${pct}% · Sale</div>
-          <span style="font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:13px;color:var(--mono);letter-spacing:.06em;">${p.images[state.sel]}</span>
+          <span style="font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:13px;color:var(--mono);letter-spacing:.06em;" id="main-img-label">${p.images[state.sel]}</span>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px;">
-          ${p.images.map((img, i) => `
-            <div class="he-thumb" data-thumb="${i}" style="aspect-ratio:1/1;border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid ${i === state.sel ? 'var(--accent)' : 'var(--border)'};" class="ph-stripe">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;">
+          ${p.images.map((img,i) => `
+            <div class="he-thumb" data-thumb="${i}" style="aspect-ratio:1/1;border-radius:12px;display:flex;align-items:center;justify-content:center;border:1.5px solid ${i === state.sel ? 'var(--accent)' : 'var(--border)'};" class="ph-stripe">
               <span style="font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:9px;color:var(--mono);letter-spacing:.04em;text-align:center;padding:0 6px;">${img}</span>
             </div>`).join('')}
         </div>
@@ -178,49 +198,49 @@ function render() {
       <!-- INFO -->
       <div>
         <div style="font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--text-muted);font-weight:600;">${p.platform} · ${p.genre}</div>
-        <h1 style="font-family:'Manrope',sans-serif;font-weight:800;font-size:34px;line-height:1.1;letter-spacing:-.02em;color:var(--text);margin:12px 0 0;">${p.name}</h1>
+        <h1 class="pdp-title" style="font-family:'Manrope',sans-serif;font-weight:800;font-size:32px;line-height:1.1;letter-spacing:-.02em;color:var(--text);margin:10px 0 0;">${p.name}</h1>
 
-        <div style="display:flex;align-items:center;gap:10px;margin-top:14px;font-size:13px;color:var(--text-muted);">
+        <div style="display:flex;align-items:center;gap:10px;margin-top:12px;font-size:13px;color:var(--text-muted);flex-wrap:wrap;">
           <span style="color:var(--text);font-weight:600;">${p.rating}</span>
           <span style="color:var(--accent);">★★★★★</span>
           <span>· ${p.reviews.toLocaleString()} reviews</span>
         </div>
 
-        <div style="display:flex;align-items:baseline;gap:14px;margin-top:22px;flex-wrap:wrap;">
-          <span style="font-family:'Manrope',sans-serif;font-size:34px;font-weight:800;color:var(--text);white-space:nowrap;">${money(p.price)}</span>
-          <span style="font-size:17px;color:var(--text-faint);text-decoration:line-through;">${money(p.originalPrice)}</span>
+        <div style="display:flex;align-items:baseline;gap:12px;margin-top:18px;flex-wrap:wrap;">
+          <span class="pdp-price" style="font-family:'Manrope',sans-serif;font-size:32px;font-weight:800;color:var(--text);white-space:nowrap;">${money(p.price)}</span>
+          <span style="font-size:16px;color:var(--text-faint);text-decoration:line-through;">${money(p.originalPrice)}</span>
           <span style="font-size:13px;font-weight:700;color:var(--accent);background:rgba(250,75,42,.12);border:1px solid rgba(250,75,42,.3);padding:4px 10px;border-radius:999px;">Save ${money(save)}</span>
         </div>
 
-        <div style="display:flex;align-items:center;gap:8px;margin-top:16px;font-size:13.5px;color:#34d07f;">
-          <span style="width:8px;height:8px;border-radius:50%;background:#34d07f;display:inline-block;"></span>In stock · ships next-day across the UAE
+        <div style="display:flex;align-items:center;gap:8px;margin-top:14px;font-size:13.5px;color:#34d07f;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#34d07f;flex:none;"></span>In stock · ships next-day across the UAE
         </div>
 
-        <p style="font-size:14.5px;line-height:1.65;color:var(--text-3);margin:22px 0 0;text-wrap:pretty;">${p.description[0]}</p>
+        <p style="font-size:14.5px;line-height:1.65;color:var(--text-3);margin:18px 0 0;text-wrap:pretty;">${p.description[0]}</p>
 
         <!-- QTY + ACTIONS -->
-        <div style="display:flex;align-items:center;gap:14px;margin-top:26px;">
-          <div style="display:flex;align-items:center;border:1px solid var(--border-2);border-radius:11px;overflow:hidden;background:var(--surface-2);">
-            <button id="qty-dec" style="width:42px;height:46px;background:transparent;border:none;color:var(--mono);font-size:18px;display:flex;align-items:center;justify-content:center;">−</button>
-            <div id="qty-val" style="width:42px;text-align:center;color:var(--text);font-weight:600;font-size:15px;">${state.qty}</div>
-            <button id="qty-inc" style="width:42px;height:46px;background:transparent;border:none;color:var(--mono);font-size:18px;display:flex;align-items:center;justify-content:center;">+</button>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:22px;">
+          <div style="display:flex;align-items:center;border:1px solid var(--border-2);border-radius:11px;overflow:hidden;background:var(--surface-2);flex:none;">
+            <button id="qty-dec" style="width:40px;height:44px;background:transparent;border:none;color:var(--mono);font-size:18px;display:flex;align-items:center;justify-content:center;">−</button>
+            <div id="qty-val" style="width:38px;text-align:center;color:var(--text);font-weight:600;font-size:15px;">${state.qty}</div>
+            <button id="qty-inc" style="width:40px;height:44px;background:transparent;border:none;color:var(--mono);font-size:18px;display:flex;align-items:center;justify-content:center;">+</button>
           </div>
           <div style="position:relative;flex:1;" class="cc-tip">
-            <button disabled style="width:100%;border:none;background:var(--accent);color:#fff;font-weight:700;font-size:15px;padding:15px;border-radius:12px;cursor:not-allowed;opacity:.55;display:flex;align-items:center;justify-content:center;gap:8px;">Add to cart</button>
+            <button disabled style="width:100%;border:none;background:var(--accent);color:#fff;font-weight:700;font-size:15px;padding:13px;border-radius:12px;cursor:not-allowed;opacity:.55;display:flex;align-items:center;justify-content:center;">Add to cart</button>
             <div class="cc-tipbox" style="position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(6px);background:#000;color:var(--text);font-size:12px;font-weight:600;padding:7px 12px;border-radius:9px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;border:1px solid var(--border-2);">Available soon — cart launching in Phase 2</div>
           </div>
-          <button id="wish-btn" style="width:46px;height:46px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border-2);color:var(--text-muted);font-size:18px;">${state.wishlist ? '♥' : '♡'}</button>
+          <button id="wish-btn" style="width:44px;height:44px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border-2);color:var(--text-muted);font-size:18px;flex:none;">${state.wishlist ? '♥' : '♡'}</button>
         </div>
-        <div style="position:relative;margin-top:12px;" class="cc-tip">
-          <button disabled style="width:100%;border:1px solid var(--border-2);background:var(--surface-2);color:var(--text-muted);font-weight:600;font-size:14px;padding:14px;border-radius:12px;cursor:not-allowed;">Buy now</button>
+        <div style="position:relative;margin-top:10px;" class="cc-tip">
+          <button disabled style="width:100%;border:1px solid var(--border-2);background:var(--surface-2);color:var(--text-muted);font-weight:600;font-size:14px;padding:13px;border-radius:12px;cursor:not-allowed;">Buy now</button>
           <div class="cc-tipbox" style="position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(6px);background:#000;color:var(--text);font-size:12px;font-weight:600;padding:7px 12px;border-radius:9px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;border:1px solid var(--border-2);">Available soon — checkout launching in Phase 2</div>
         </div>
 
         <!-- MINI TRUST -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px;">
+        <div class="trust-grid" style="margin-top:20px;">
           ${p.assurances.map(a => `
-            <div style="display:flex;align-items:flex-start;gap:10px;border:1px solid var(--border);background:var(--band);border-radius:12px;padding:13px;">
-              <span style="width:7px;height:7px;border-radius:2px;background:var(--accent);margin-top:5px;flex:none;"></span>
+            <div style="display:flex;align-items:flex-start;gap:10px;border:1px solid var(--border);background:var(--band);border-radius:12px;padding:12px;">
+              <span style="width:7px;height:7px;border-radius:2px;background:var(--accent);margin-top:4px;flex:none;"></span>
               <div>
                 <div style="font-size:13px;font-weight:600;color:var(--text);">${a.title}</div>
                 <div style="font-size:11.5px;color:var(--text-muted);margin-top:2px;">${a.sub}</div>
@@ -231,18 +251,18 @@ function render() {
     </section>
 
     <!-- DESCRIPTION + SPECS -->
-    <section style="max-width:1200px;margin:0 auto;padding:64px 24px 0;display:grid;grid-template-columns:1.4fr 1fr;gap:48px;">
+    <section style="max-width:1200px;margin:0 auto;padding:56px 20px 0;" class="desc-layout">
       <div>
-        <h2 style="font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;letter-spacing:-.01em;color:var(--text);margin:0 0 16px;">About this game</h2>
-        ${p.description.map(d => `<p style="font-size:14.5px;line-height:1.7;color:var(--text-3);margin:0 0 16px;text-wrap:pretty;">${d}</p>`).join('')}
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+        <h2 style="font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;letter-spacing:-.01em;color:var(--text);margin:0 0 14px;">About this game</h2>
+        ${p.description.map(d => `<p style="font-size:14.5px;line-height:1.7;color:var(--text-3);margin:0 0 14px;text-wrap:pretty;">${d}</p>`).join('')}
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
           ${p.tags.map(t => `<span style="font-size:12px;font-weight:600;color:var(--text-2);background:var(--surface-2);border:1px solid var(--border);padding:7px 13px;border-radius:999px;">${t}</span>`).join('')}
         </div>
       </div>
-      <div style="border:1px solid var(--border);background:var(--band);border-radius:16px;padding:22px 24px;height:fit-content;">
-        <div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:15px;color:var(--text);margin-bottom:6px;">Specifications</div>
+      <div style="border:1px solid var(--border);background:var(--band);border-radius:16px;padding:20px 22px;height:fit-content;">
+        <div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:15px;color:var(--text);margin-bottom:4px;">Specifications</div>
         ${p.specs.map(s => `
-          <div style="display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--border);font-size:13.5px;">
+          <div style="display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--border);font-size:13.5px;">
             <span style="color:var(--text-muted);">${s.k}</span>
             <span style="color:var(--text);font-weight:600;text-align:right;">${s.v}</span>
           </div>`).join('')}
@@ -250,28 +270,28 @@ function render() {
     </section>
 
     <!-- RELATED -->
-    <section style="max-width:1200px;margin:0 auto;padding:64px 24px 80px;">
-      <h2 style="font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;color:var(--text);margin:0 0 24px;">You might also like</h2>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;">
-        ${RELATED.map(relatedCardHTML).join('')}
+    <section style="max-width:1200px;margin:0 auto;padding:56px 20px 72px;">
+      <h2 style="font-family:'Manrope',sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;color:var(--text);margin:0 0 22px;">You might also like</h2>
+      <div class="grid-4">
+        ${RELATED.map(relCardHTML).join('')}
       </div>
     </section>
 
     <!-- SLIM FOOTER -->
     <footer style="border-top:1px solid var(--border);background:var(--footer);">
-      <div style="max-width:1200px;margin:0 auto;padding:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div style="max-width:1200px;margin:0 auto;padding:22px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
         <div style="display:flex;align-items:center;gap:10px;">
           <div style="width:28px;height:28px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;font-family:'Manrope',sans-serif;">H</div>
           <span style="font-size:12.5px;color:var(--text-faint);">© 2026 Hogwarts Electronics LLC · Dubai, UAE</span>
         </div>
-        <div style="display:flex;gap:8px;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
           ${PAYS.map(pay => `<div style="height:26px;padding:0 9px;border-radius:6px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:.03em;">${pay}</div>`).join('')}
         </div>
       </div>
     </footer>
   `;
 
-  // thumbnail stripe bg (re-apply after innerHTML)
+  // Re-apply ph-stripe bg to thumbs (CSS class in data attr overrides class= collision)
   root.querySelectorAll('[data-thumb]').forEach(el => {
     el.style.background = 'var(--ph-bg)';
     el.style.backgroundImage = 'repeating-linear-gradient(135deg,var(--ph-a) 0 12px,var(--ph-b) 12px 24px)';
@@ -283,7 +303,6 @@ function render() {
     localStorage.setItem('he-theme', t);
     setState({ theme: t });
   };
-
   document.getElementById('qty-dec').onclick = () => { if (state.qty > 1) setState({ qty: state.qty - 1 }); };
   document.getElementById('qty-inc').onclick = () => setState({ qty: state.qty + 1 });
   document.getElementById('wish-btn').onclick = () => setState({ wishlist: !state.wishlist });
